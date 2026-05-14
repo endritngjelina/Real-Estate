@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetailSpace Pro - Commercial Property Sales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-button {
+            grid-column: 1 / -1;
+            padding: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .property-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image::before {
+            content: '🏢';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            opacity: 0.7;
+        }
+
+        .property-info {
+            padding: 1.5rem;
+        }
+
+        .property-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-location {
+            color: #666;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .property-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .property-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .property-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .property-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">RetailSpace Pro</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#properties">Properties</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Sell Your Retail Properties</h1>
+            <p>The premier platform for retail companies to showcase and sell their commercial real estate</p>
+            <a href="#properties" class="cta-button">List Your Property</a>
+        </section>
+
+        <section class="search-section">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">Find Your Perfect Retail Space</h2>
+            <form class="search-form">
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="City, State, or ZIP">
+                </div>
+                <div class="form-group">
+                    <label for="property-type">Property Type</label>
+                    <select id="property-type">
+                        <option value="">All Types</option>
+                        <option value="retail-store">Retail Store</option>
+                        <option value="shopping-center">Shopping Center</option>
+                        <option value="mall">Mall</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="warehouse">Warehouse</option>
+                        <option value="office">Office Space</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="min-price">Min Price</label>
+                    <input type="number" id="min-price" placeholder="$0">
+                </div>
+                <div class="form-group">
+                    <label for="max-price">Max Price</label>
+                    <input type="number" id="max-price" placeholder="No limit">
+                </div>
+                <div class="form-group">
+                    <label for="square-feet">Square Feet</label>
+                    <input type="number" id="square-feet" placeholder="Min sq ft">
+                </div>
+                <button type="button" class="search-button" onclick="searchProperties()">Search Properties</button>
+            </form>
+        </section>
+
+        <section class="properties-grid" id="properties">
+            <!-- Property cards will be dynamically generated -->
+        </section>
+
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">$2.5B+</span>
+                    <span class="stat-label">Properties Sold</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">850+</span>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Customer Support</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>RetailSpace Pro</h3>
+                    <p>Your trusted partner in commercial real estate transactions. We specialize in helping retail companies maximize their property value.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Property Listing</a></li>
+                        <li><a href="#">Market Analysis</a></li>
+                        <li><a href="#">Property Valuation</a></li>
+                        <li><a href="#">Transaction Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Market Reports</a></li>
+                        <li><a href="#">Investment Guide</a></li>
+                        <li><a href="#">Legal Resources</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li>📧 info@retailspacepro.com</li>
+                        <li>📞 (555) 123-4567</li>
+                        <li>📍 123 Business Ave, Suite 100</li>
+                        <li>New York, NY 10001</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample property data
+        const properties = [
+            {
+                id: 1,
+                title: "Premium Retail Space - Downtown",
+                location: "Manhattan, NY",
+                type: "retail-store",
+                price: 2500000,
+                sqft: 5000,
+                parking: 20,
+                yearBuilt: 2018,
+                company: "Fashion Forward Inc."
+            },
+            {
+                id: 2,
+                title: "Shopping Center - High Traffic",
+                location: "Los Angeles, CA",
+                type: "shopping-center",
+                price: 8500000,
+                sqft: 45000,
+                parking: 200,
+                yearBuilt: 2015,
+                company: "Retail Giants LLC"
+            },
+            {
+                id: 3,
+                title: "Restaurant Space - Corner Location",
+                location: "Chicago, IL",
+                type: "restaurant",
+                price: 1800000,
+                sqft: 3500,
+                parking: 15,
+                yearBuilt: 2020,
+                company: "Dining Delights Corp"
+            },
+            {
+                id: 4,
+                title: "Warehouse & Distribution Center",
+                location: "Dallas, TX",
+                type: "warehouse",
+                price: 4200000,
+                sqft: 25000,
+                parking: 50,
+                yearBuilt: 2019,
+                company: "Logistics Leaders"
+            },
+            {
+                id: 5,
+                title: "Luxury Mall Anchor Store",
+                location: "Miami, FL",
+                type: "mall",
+                price: 6700000,
+                sqft: 15000,
+                parking: 100,
+                yearBuilt: 2017,
+                company: "Prestige Retail Co."
+            },
+            {
+                id: 6,
+                title: "Office Complex with Retail",
+                location: "Seattle, WA",
+                type: "office",
+                price: 5300000,
+                sqft: 12000,
+                parking: 80,
+                yearBuilt: 2021,
+                company: "Urban Spaces LLC"
+            }
+        ];
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(price);
+        }
+
+        function formatSqft(sqft) {
+            return new Intl.NumberFormat('en-US').format(sqft);
+        }
+
+        function createPropertyCard(property) {
+            return `
+                <div class="property-card">
+                    <div class="property-image"></div>
+                    <div class="property-info">
+                        <h3 class="property-title">${property.title}</h3>
+                        <div class="property-location">📍 ${property.location}</div>
+                        <div class="property-details">
+                            <div class="property-detail">🏢 ${formatSqft(property.sqft)} sq ft</div>
+                            <div class="property-detail">🚗 ${property.parking} parking</div>
+                            <div class="property-detail">📅 Built ${property.yearBuilt}</div>
+                            <div class="property-detail">🏪 ${property.company}</div>
+                        </div>
+                        <div class="property-price">${formatPrice(property.price)}</div>
+                        <div class="property-actions">
+                            <button class="btn btn-primary" onclick="viewProperty(${property.id})">View Details</button>
+                            <button class="btn btn-secondary" onclick="contactSeller(${property.id})">Contact Seller</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProperties(propertiesToRender = properties) {
+            const grid = document.querySelector('.properties-grid');
+            grid.innerHTML = propertiesToRender.map(createPropertyCard).join('');
+        }
+
+        function searchProperties() {
+            const location = document.getElementById('location').value.toLowerCase();
+            const propertyType = document.getElementById('property-type').value;
+            const minPrice = parseFloat(document.getElementById('min-price').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
+            const minSqft = parseFloat(document.getElementById('square-feet').value) || 0;
+
+            const filtered = properties.filter(property => {
+                const matchesLocation = !location || property.location.toLowerCase().includes(location);
+                const matchesType = !propertyType || property.type === propertyType;
+                const matchesPrice = property.price >= minPrice && property.price <= maxPrice;
+                const matchesSqft = property.sqft >= minSqft;
+
+                return matchesLocation && matchesType && matchesPrice && matchesSqft;
+            });
+
+            renderProperties(filtered);
+
+            if (filtered.length === 0) {
+                document.querySelector('.properties-grid').innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <h3 style="color: #666; margin-bottom: 1rem;">No properties found</h3>
+                        <p style="color: #999;">Try adjusting your search criteria to find more results.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function viewProperty(id) {
+            const property = properties.find(p => p.id === id);
+            alert(`Viewing details for: ${property.title}\n\nThis would typically open a detailed property page with photos, floor plans, and comprehensive information.`);
+        }
+
+        function contactSeller(id) {
+            const property = properties.find(p => p.id === id);
+            alert(`Contacting seller for: ${property.title}\n\nCompany: ${property.company}\n\nThis would typically open a contact form or connect you directly with the property owner.`);
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 8px 32px rgba(31, 38, 135, 0.5)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 8px 32px rgba(31, 38, 135, 0.37)';
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProperties();
+        });
+    </script>
+</body>
+</html>
